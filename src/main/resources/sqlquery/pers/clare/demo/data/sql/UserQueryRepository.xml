@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE SQL>
+<SQL>
+	<findAllMapXML><![CDATA[
+		select id
+			,name
+			,create_time
+		from user
+	]]></findAllMapXML>
+	<pageMapXML><![CDATA[
+		select *
+		from user
+		where create_time between :startTime and :endTime
+		{andId}
+		{andName}
+	]]></pageMapXML>
+</SQL>
