@@ -24,14 +24,17 @@ public interface UserQueryRepository extends SQLRepository {
     @HiSql("select * from user")
     User find();
 
-    @HiSql("select id,name,account,email,locked,enabled from user")
+    @HiSql(" select id,name,account,email,locked,enabled from user")
     User2 find2();
 
     @HiSql("select id,name from user limit 0,10")
     List findAllSimpleMap();
 
-    @HiSql("select id,name from user limit 0,10")
+    @HiSql(" Select id,name from user limit 0,10")
     List<SimpleUser> findAllSimple();
+
+    @HiSql("select id,name from user where id in :ids limit 0,10")
+    List<SimpleUser> findAllSimple(List<Long> ids);
 
     @HiSql("select id,name from user")
     List<Map<String, Object>> findAllMap(Pagination pagination);
