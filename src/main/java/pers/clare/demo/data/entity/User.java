@@ -17,33 +17,33 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "varchar(100) default ''")
+    @Column(nullable = false, columnDefinition = "varchar(100) default ''")
     private String account;
 
-    @Column(columnDefinition = "varchar(100) default ''")
+    @Column(nullable = false, columnDefinition = "varchar(100) default ''")
     private String name;
 
-    @Column(columnDefinition = "varchar(200) default ''")
+    @Column(nullable = false, columnDefinition = "varchar(200) default ''")
     private String email;
 
-    @Column(columnDefinition = "int default '0'")
+    @Column(nullable = false, columnDefinition = "int default '0'")
     private Integer count;
 
-    @Column(columnDefinition = "boolean default 'false'")
+    @Column(nullable = false, columnDefinition = "boolean default 'false'")
     private Boolean locked;
 
-    @Column(columnDefinition = "boolean default 'true'")
+    @Column(nullable = false, columnDefinition = "boolean default 'true'")
     private Boolean enabled;
 
-    @Column(name = "update_time")
+    @Column(nullable = false, name = "update_time", columnDefinition = "bigint default '0'")
     private Long updateTime;
 
-    @Column(name = "update_user")
+    @Column(nullable = false, name = "update_user", columnDefinition = "bigint default '0'")
     private Long updateUser;
 
-    @Column(name = "create_time", updatable = false)
+    @Column(nullable = false, name = "create_time", updatable = false, columnDefinition = "bigint default '0'")
     private Long createTime;
 
-    @Column(name = "create_user", updatable = false)
+    @Column(nullable = false, name = "create_user", updatable = false, columnDefinition = "bigint default '0'")
     private Long createUser;
 }

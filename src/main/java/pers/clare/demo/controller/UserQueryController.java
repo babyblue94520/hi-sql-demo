@@ -85,7 +85,7 @@ public class UserQueryController {
     public List<User> sort(
             Sort sort
     ) throws Exception {
-        return userQueryRepository.findAllId(sort);
+        return userQueryRepository.findAll(sort);
     }
 
     @GetMapping("page/map")

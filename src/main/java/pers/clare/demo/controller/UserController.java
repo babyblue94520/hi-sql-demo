@@ -83,7 +83,7 @@ public class UserController {
     public User update(
             User user
     ) throws Exception {
-        userRepository.update(user);
+        int count = userRepository.update(user);
         return userRepository.find(user);
     }
 

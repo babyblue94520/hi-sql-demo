@@ -46,7 +46,7 @@ public interface UserQueryRepository extends SQLRepository {
     List<Long> findAllId(Pagination pagination);
 
     @HiSql("select * from user")
-    List<User> findAllId(Sort sort);
+    List<User> findAll(Sort sort);
 
     @HiSql("select id,name from user limit 0,10")
     Set findAllSimpleSetMap();

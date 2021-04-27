@@ -12,26 +12,17 @@
     <artifactId>hi-sql-demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>hi-sql-demo</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Hi SQL Test project for Spring Boot</description>
 
     <properties>
         <java.version>11</java.version>
-        <swagger.version>2.9.2</swagger.version>
-        <maven.test.skip>true</maven.test.skip>
     </properties>
-
-    <repositories>
-        <repository>
-            <id>github</id>
-            <url>https://maven.pkg.github.com</url>
-        </repository>
-    </repositories>
 
     <dependencies>
         <dependency>
-            <groupId>pers.clare</groupId>
+            <groupId>io.github.babyblue94520</groupId>
             <artifactId>hi-sql</artifactId>
-            <version>0.0.2-SNAPSHOT</version>
+            <version>0.0.3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -43,32 +34,17 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
         <!--swagger2-->
         <dependency>
             <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${swagger.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>${swagger.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-bean-validators</artifactId>
-            <version>${swagger.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjweaver</artifactId>
-            <version>1.9.6</version>
+            <artifactId>springfox-boot-starter</artifactId>
+            <version>3.0.0</version>
         </dependency>
 
         <dependency>
@@ -89,7 +65,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <scope>testUser</scope>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

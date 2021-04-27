@@ -50,6 +50,14 @@ public class PerformanceController {
         return run(thread, max, (i) -> userJpaRepository.save(User.builder()
                 .account(Thread.currentThread().getName() + i)
                 .name(Thread.currentThread().getName())
+                .email("")
+                .count(0)
+                .locked(false)
+                .enabled(true)
+                .updateTime(0L)
+                .updateUser(0L)
+                .createTime(0L)
+                .createUser(0L)
                 .build()
         ));
     }
