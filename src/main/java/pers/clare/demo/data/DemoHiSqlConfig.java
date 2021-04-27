@@ -1,4 +1,4 @@
-package pers.clare.demo2.data;
+package pers.clare.demo.data;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,17 +16,17 @@ import pers.clare.hisql.annotation.EnableHiSql;
 import javax.sql.DataSource;
 
 @EnableHiSql(
-        basePackages = "pers.clare.demo2.data.sql"
-        , dataSourceRef = Demo2HiSqlConfig.DATA_SOURCE
+        basePackages = "pers.clare.demo.data.sql"
+        , dataSourceRef = DemoHiSqlConfig.DATA_SOURCE
 )
-public class Demo2HiSqlConfig {
-    public static final String PREFIX = "demo2";
+public class DemoHiSqlConfig {
+    public static final String PREFIX = "demo";
     static final String DATA_SOURCE_PROPERTIES = "spring.datasource." + PREFIX;
 
     public static final String DATA_SOURCE = PREFIX + "DataSource";
-
     public static final String DATA_SOURCE_INITIALIZER = PREFIX + "DataSourceInitializer";
 
+    @Primary
     @Bean(name = DATA_SOURCE)
     @ConfigurationProperties(prefix = DATA_SOURCE_PROPERTIES)
     public DataSource dataSource() {

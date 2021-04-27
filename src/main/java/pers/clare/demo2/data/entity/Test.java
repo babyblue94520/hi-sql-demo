@@ -9,7 +9,6 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 public class Test {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

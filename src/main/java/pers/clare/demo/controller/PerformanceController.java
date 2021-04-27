@@ -2,14 +2,11 @@ package pers.clare.demo.controller;
 
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 import pers.clare.demo.data.entity.User;
-import pers.clare.demo.data.jpa.UserJpaRepository;
 import pers.clare.demo.data.sql.UserQueryRepository;
 import pers.clare.demo.data.sql.UserRepository;
 import pers.clare.demo.service.UserService;
-import pers.clare.hisql.page.Next;
 import pers.clare.hisql.page.Pagination;
 
 import java.util.ArrayList;
@@ -24,43 +21,9 @@ public class PerformanceController {
     private UserRepository userRepository;
     @Autowired
     private UserQueryRepository userQueryRepository;
-    @Autowired
-    private UserJpaRepository userJpaRepository;
 
     @Autowired
     private UserService userService;
-
-    @GetMapping("jpa/page")
-    public String jpaPage(
-            @ApiParam(value = "執行緒數量", example = "8")
-            @RequestParam(required = false, defaultValue = "8") final int thread
-            , @ApiParam(value = "數量", example = "100")
-            @RequestParam(required = false, defaultValue = "100") final int max
-    ) throws Exception {
-        return run(thread, max, (i) -> userJpaRepository.findAll(PageRequest.of(i, 20)));
-    }
-
-    @GetMapping("jpa/insert")
-    public String jpaInsert(
-            @ApiParam(value = "執行緒數量", example = "8")
-            @RequestParam(required = false, defaultValue = "8") final int thread
-            , @ApiParam(value = "數量", example = "100")
-            @RequestParam(required = false, defaultValue = "100") final int max
-    ) throws Exception {
-        return run(thread, max, (i) -> userJpaRepository.save(User.builder()
-                .account(Thread.currentThread().getName() + i)
-                .name(Thread.currentThread().getName())
-                .email("")
-                .count(0)
-                .locked(false)
-                .enabled(true)
-                .updateTime(0L)
-                .updateUser(0L)
-                .createTime(0L)
-                .createUser(0L)
-                .build()
-        ));
-    }
 
     @GetMapping("sql/page")
     public String page(
