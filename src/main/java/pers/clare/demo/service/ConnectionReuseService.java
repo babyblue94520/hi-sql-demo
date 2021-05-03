@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pers.clare.hisql.aop.SqlConnectionReuse;
 import pers.clare.demo.data.entity.User;
-import pers.clare.demo.data.sql.TransactionRepository;
+import pers.clare.demo.data.sql.ConnectionReuseRepository;
 import pers.clare.demo.data.sql.UserRepository;
 
 import java.sql.Connection;
@@ -16,15 +16,15 @@ public class ConnectionReuseService {
     private UserRepository userRepository;
 
     @Autowired
-    private TransactionRepository transactionRepository;
+    private ConnectionReuseRepository connectionReuseRepository;
 
     /**
      * use the some connection in different methods
      */
     @SqlConnectionReuse
     public String queryDefineValue(Long id, String name) {
-        transactionRepository.updateName(id, name);
-        return String.format("old name:%s , new name:%s", transactionRepository.getOldName(), name);
+        connectionReuseRepository.updateName(id, name);
+        return String.format("old name:%s , new name:%s", connectionReuseRepository.getOldName(), name);
     }
 
     @SqlConnectionReuse(transaction = true, isolation = Connection.TRANSACTION_READ_UNCOMMITTED)

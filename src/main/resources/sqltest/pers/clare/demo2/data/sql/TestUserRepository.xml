@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE SQL>
+<SQL>
+	<findAllByIn><![CDATA[
+		select * from TEST_USER where (ID,NAME) in :testUsers
+	]]></findAllByIn>
+</SQL>

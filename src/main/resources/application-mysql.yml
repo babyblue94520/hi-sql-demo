@@ -1,11 +1,8 @@
 spring:
-  jpa:
-    hibernate:
-      ddl-auto: none
-    generate-ddl: false
   datasource:
     demo:
-      schema: schema-demo.sql
+      hikari:
+        schema: schema-demo.sql
       type: com.zaxxer.hikari.HikariDataSource
   #    url: jdbc:mysql://192.168.1.110:3306/demo?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&cachePrepStmts=true&useServerPrepStmts=true
   #    jdbc-url: jdbc:mysql://192.168.1.110:3306/demo?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&cachePrepStmts=true&useServerPrepStmts=true
@@ -17,7 +14,8 @@ spring:
       idle-timeout: 300000
       max-lifetime: 1200000
     demo2:
-      schema: schema-demo2.sql
+      hikari:
+        schema: schema-demo2.sql
       type: com.zaxxer.hikari.HikariDataSource
       #    url: jdbc:mysql://192.168.1.110:3306/demo2?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&cachePrepStmts=true&useServerPrepStmts=true
       #    jdbc-url: jdbc:mysql://192.168.1.110:3306/demo2?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&cachePrepStmts=true&useServerPrepStmts=true

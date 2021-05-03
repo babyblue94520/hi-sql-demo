@@ -2,9 +2,8 @@ package pers.clare.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import pers.clare.demo.vo.SimpleUser;
 import pers.clare.hisql.page.Page;
 import pers.clare.hisql.page.Pagination;
 import pers.clare.hisql.page.Sort;
@@ -15,7 +14,9 @@ import pers.clare.demo.data.sql.UserQueryRepository;
 import pers.clare.demo.vo.User2;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("user/query")
 @RestController
@@ -115,6 +116,18 @@ public class UserQueryController {
     }
 
 
+    @GetMapping("page/1")
+    public List<User> page1(String name
+    ) throws Exception {
+        return userQueryRepository.page1(name);
+    }
+
+    @GetMapping("page/2")
+    public List<User> page2(String name
+    ) throws Exception {
+        return userQueryRepository.page2(name);
+    }
+
     @GetMapping("page2")
     public Page<User> page(
             UserPageQuery query
@@ -170,5 +183,25 @@ public class UserQueryController {
                 , id
                 , name
         );
+    }
+
+    @PostMapping("query/in")
+    public Map<String, List<User>> queryIn(
+            @RequestBody List<SimpleUser> simpleUsers
+    ) throws Exception {
+        Map<String, List<User>> result = new HashMap<>();
+        result.put("list", userQueryRepository.findAll(simpleUsers));
+        result.put("array", userQueryRepository.findAll(simpleUsers.toArray(new SimpleUser[simpleUsers.size()])));
+        Object[][] condition = new Object[simpleUsers.size()][];
+        int i = 0;
+        Object[] values;
+        for (SimpleUser user : simpleUsers) {
+            values = new Object[2];
+            values[0] = user.getId();
+            values[1] = user.getName();
+            condition[i++] = values;
+        }
+        result.put("arrays", userQueryRepository.findAll(condition));
+        return result;
     }
 }

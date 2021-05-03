@@ -79,6 +79,14 @@ public class UserController {
         return userRepository.insert(user);
     }
 
+    @PostMapping("name")
+    public void insert(
+            String name
+    ) throws Exception {
+        userRepository.insert(name);
+    }
+
+
     @PutMapping
     public User update(
             User user

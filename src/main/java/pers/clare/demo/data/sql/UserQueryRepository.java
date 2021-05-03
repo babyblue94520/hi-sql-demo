@@ -72,6 +72,12 @@ public interface UserQueryRepository extends SQLRepository {
             , String name
     );
 
+    @HiSql("select * from user where name like :name")
+    List<User> page1(String name);
+
+    @HiSql("select * from user where name like ?")
+    List<User> page2(String name);
+
     @HiSql("select id,name from user where name like ? limit ?,?")
     List<SimpleUser> findAllSimple(String name, int page, int size);
 
@@ -103,4 +109,14 @@ public interface UserQueryRepository extends SQLRepository {
 
     @HiSql("select * from user where create_time between :query.startTime and :query.endTime {andId}{andName}")
     List<User> sort(String andId, String andName, UserSortQuery query);
+
+
+    @HiSql("select * from user where (id,name) in :idNames")
+    List<User> findAll(SimpleUser[] idNames);
+
+    @HiSql("select * from user where (id,name) in :idNames")
+    List<User> findAll(List<SimpleUser> idNames);
+
+    @HiSql("select * from user where (id,name) in :idNames")
+    List<User> findAll(Object[][] idNames);
 }

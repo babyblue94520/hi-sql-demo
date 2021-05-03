@@ -39,7 +39,7 @@ public class DemoHiSqlConfig {
     @Bean(name = DATA_SOURCE_INITIALIZER)
     public DataSourceInitializer dataSourceInitializer(
             @Qualifier(DATA_SOURCE) DataSource datasource
-            , @Value("${" + DATA_SOURCE_PROPERTIES + ".schema}") String schema
+            , @Value("${" + DATA_SOURCE_PROPERTIES + ".hikari.schema}") String schema
     ) {
         DataSourceInitializer dataSourceInitializer = new DataSourceInitializer();
         dataSourceInitializer.setDataSource(datasource);

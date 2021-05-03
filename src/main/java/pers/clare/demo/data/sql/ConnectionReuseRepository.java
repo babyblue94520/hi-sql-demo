@@ -5,7 +5,7 @@ import pers.clare.hisql.annotation.HiSql;
 import pers.clare.hisql.repository.SQLRepository;
 
 @Repository
-public interface TransactionRepository extends SQLRepository {
+public interface ConnectionReuseRepository extends SQLRepository {
 
     // mysql
     @HiSql("update user set name = if(@name:=name,:name,:name) where id=:id")

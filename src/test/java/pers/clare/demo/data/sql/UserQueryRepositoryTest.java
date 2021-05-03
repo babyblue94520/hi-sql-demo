@@ -243,4 +243,23 @@ class UserQueryRepositoryTest {
         assertNotNull(list);
         assertEquals(list.size(), count);
     }
+
+    @Test
+    void inQuery() {
+        int size = 3;
+        List<SimpleUser> simpleUsers = userQueryRepository.findAll(Pagination.of(0, size));
+        assertTrue(userQueryRepository.findAll(simpleUsers).size() == size);
+        assertTrue(userQueryRepository.findAll(simpleUsers.toArray(new SimpleUser[simpleUsers.size()])).size() == size);
+
+        Object[][] condition = new Object[simpleUsers.size()][];
+        int i = 0;
+        Object[] values;
+        for (SimpleUser user : simpleUsers) {
+            values = new Object[2];
+            values[0] = user.getId();
+            values[1] = user.getName();
+            condition[i++] = values;
+        }
+        assertTrue(userQueryRepository.findAll(condition).size() == size);
+    }
 }

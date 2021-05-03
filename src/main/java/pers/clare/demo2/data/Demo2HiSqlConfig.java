@@ -12,12 +12,16 @@ import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.util.StringUtils;
 import pers.clare.hisql.annotation.EnableHiSql;
+import pers.clare.hisql.page.MSSQLPaginationMode;
 
 import javax.sql.DataSource;
 
 @EnableHiSql(
         basePackages = "pers.clare.demo2.data.sql"
+        , xmlRootPath = "sqltest"
         , dataSourceRef = Demo2HiSqlConfig.DATA_SOURCE
+        , naming = UpperCaseNamingStrategy.class
+        , paginationMode = MSSQLPaginationMode.class
 )
 public class Demo2HiSqlConfig {
     public static final String PREFIX = "demo2";
@@ -39,7 +43,7 @@ public class Demo2HiSqlConfig {
     @Bean(name = DATA_SOURCE_INITIALIZER)
     public DataSourceInitializer dataSourceInitializer(
             @Qualifier(DATA_SOURCE) DataSource datasource
-            , @Value("${" + DATA_SOURCE_PROPERTIES + ".schema}") String schema
+            , @Value("${" + DATA_SOURCE_PROPERTIES + ".hikari.schema}") String schema
     ) {
         DataSourceInitializer dataSourceInitializer = new DataSourceInitializer();
         dataSourceInitializer.setDataSource(datasource);

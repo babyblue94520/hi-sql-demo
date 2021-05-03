@@ -2,16 +2,9 @@
 spring:
   profiles:
     include:
-#      - h2
-      - mysql
+      - h2
+#      - mysql
     active: dev
-  jpa:
-    open-in-view: false
-    properties:
-      hibernate:
-        format_sql: true
-    database: mysql
-    show-sql: true
 
 management:
   endpoints:
@@ -40,6 +33,6 @@ management:
   info:
     git:
       mode: full
-#logging:
-#  level:
-#    pers.clare: debug
+logging:
+  level:
+    pers.clare: debug
