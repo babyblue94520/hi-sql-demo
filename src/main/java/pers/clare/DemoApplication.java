@@ -3,7 +3,12 @@ package pers.clare;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import pers.clare.demo.data.jpa.ExtendedRepositoryImpl;
 
+@EnableJpaRepositories(
+        repositoryBaseClass = ExtendedRepositoryImpl.class
+)
 @EnableAspectJAutoProxy(exposeProxy = true)
 @SpringBootApplication
 public class DemoApplication {

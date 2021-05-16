@@ -1,10 +1,15 @@
 package pers.clare.demo.controller;
 
 import io.swagger.annotations.ApiParam;
+import org.jooq.DSLContext;
+import org.jooq.Record;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 import pers.clare.demo.data.entity.User;
+import pers.clare.demo.data.jooq.Tables;
+import pers.clare.demo.data.jooq.tables.records.UserRecord;
 import pers.clare.demo.data.jpa.UserJpaRepository;
 import pers.clare.demo.data.sql.UserQueryRepository;
 import pers.clare.demo.data.sql.UserRepository;
@@ -30,6 +35,32 @@ public class PerformanceController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private DSLContext dslContext;
+
+    @GetMapping("jooq/insert")
+    public String jooqInsert(
+            @ApiParam(value = "執行緒數量", example = "8")
+            @RequestParam(required = false, defaultValue = "8") final int thread
+            , @ApiParam(value = "數量", example = "100")
+            @RequestParam(required = false, defaultValue = "100") final int max
+    ) throws Exception {
+        return run(thread, max, (i) -> {
+            UserRecord user = dslContext.newRecord(Tables.USER);
+            user.setAccount(Thread.currentThread().getName() + i);
+            user.setName(Thread.currentThread().getName());
+            user.setEmail("");
+            user.setCount(0);
+            user.setLocked((byte) 0);
+            user.setEnabled((byte) 1);
+            user.setUpdateTime(0L);
+            user.setUpdateUser(0L);
+            user.setCreateTime(0L);
+            user.setCreateUser(0L);
+            user.insert();
+        });
+    }
+
     @GetMapping("jpa/page")
     public String jpaPage(
             @ApiParam(value = "執行緒數量", example = "8")
@@ -47,7 +78,7 @@ public class PerformanceController {
             , @ApiParam(value = "數量", example = "100")
             @RequestParam(required = false, defaultValue = "100") final int max
     ) throws Exception {
-        return run(thread, max, (i) -> userJpaRepository.save(User.builder()
+        return run(thread, max, (i) -> userJpaRepository.insert(User.builder()
                 .account(Thread.currentThread().getName() + i)
                 .name(Thread.currentThread().getName())
                 .email("")
