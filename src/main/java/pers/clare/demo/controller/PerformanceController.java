@@ -2,9 +2,7 @@ package pers.clare.demo.controller;
 
 import io.swagger.annotations.ApiParam;
 import org.jooq.DSLContext;
-import org.jooq.Record;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 import pers.clare.demo.data.entity.User;
@@ -14,11 +12,11 @@ import pers.clare.demo.data.jpa.UserJpaRepository;
 import pers.clare.demo.data.sql.UserQueryRepository;
 import pers.clare.demo.data.sql.UserRepository;
 import pers.clare.demo.service.UserService;
-import pers.clare.hisql.page.Next;
 import pers.clare.hisql.page.Pagination;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.*;
 import java.util.function.Consumer;
 
@@ -93,6 +91,17 @@ public class PerformanceController {
         ));
     }
 
+    @GetMapping("jpa/find")
+    public String jpaFind(
+            @ApiParam(value = "執行緒數量", example = "8")
+            @RequestParam(required = false, defaultValue = "8") final int thread
+            , @ApiParam(value = "次數", example = "100")
+            @RequestParam(required = false, defaultValue = "100") final int max
+    ) throws Exception {
+        Random random = new Random();
+        return run(thread, max, (i) -> userJpaRepository.findById((long) random.nextInt(800)));
+    }
+
     @GetMapping("sql/page")
     public String page(
             @ApiParam(value = "執行緒數量", example = "8")
@@ -135,6 +144,17 @@ public class PerformanceController {
                 .name(Thread.currentThread().getName())
                 .build()
         ));
+    }
+
+    @GetMapping("sql/find")
+    public String find(
+            @ApiParam(value = "執行緒數量", example = "8")
+            @RequestParam(required = false, defaultValue = "8") final int thread
+            , @ApiParam(value = "次數", example = "100")
+            @RequestParam(required = false, defaultValue = "100") final int max
+    ) throws Exception {
+        Random random = new Random();
+        return run(thread, max, (i) -> userRepository.findById((long) random.nextInt(800)));
     }
 
     private String run(int thread, int max, Consumer<Integer> runnable) throws InterruptedException, ExecutionException {

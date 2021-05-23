@@ -2,8 +2,8 @@
 spring:
   profiles:
     include:
-#      - h2
-      - mysql
+      - h2
+#      - mysql
     active: dev
   jpa:
     open-in-view: false

@@ -2,6 +2,7 @@ package pers.clare.demo.service;
 
 import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import pers.clare.hisql.aop.SqlConnectionReuse;
 import pers.clare.demo.data.entity.User;
@@ -21,6 +22,7 @@ public class ConnectionReuseService {
     /**
      * use the some connection in different methods
      */
+    @Caching
     @SqlConnectionReuse
     public String queryDefineValue(Long id, String name) {
         transactionRepository.updateName(id, name);
