@@ -99,7 +99,8 @@ public class PerformanceController {
             @RequestParam(required = false, defaultValue = "100") final int max
     ) throws Exception {
         Random random = new Random();
-        return run(thread, max, (i) -> userJpaRepository.findById((long) random.nextInt(800)));
+        int size = (int) userJpaRepository.count();
+        return run(thread, max, (i) -> userJpaRepository.findById((long) random.nextInt(size)));
     }
 
     @GetMapping("sql/page")
@@ -154,7 +155,8 @@ public class PerformanceController {
             @RequestParam(required = false, defaultValue = "100") final int max
     ) throws Exception {
         Random random = new Random();
-        return run(thread, max, (i) -> userRepository.findById((long) random.nextInt(800)));
+        int size = (int) userRepository.count();
+        return run(thread, max, (i) -> userRepository.findById((long) random.nextInt(size)));
     }
 
     private String run(int thread, int max, Consumer<Integer> runnable) throws InterruptedException, ExecutionException {
