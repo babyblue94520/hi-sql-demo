@@ -262,4 +262,22 @@ class UserQueryRepositoryTest {
         }
         assertTrue(userQueryRepository.findAll(condition).size() == size);
     }
+
+    @Test
+    void rsCallback() {
+        int size = 3;
+        List<SimpleUser> simpleUsers = userQueryRepository.findAll(Pagination.of(0, size));
+
+        assertTrue(userQueryRepository.findAll(simpleUsers,(rs)->{
+            List<User> result = new ArrayList<>();
+            while(rs.next()){
+                User user = new User();
+                user.setId(rs.getLong("id"));
+                user.setName(rs.getString("name"));
+                result.add(user);
+            }
+            return result;
+        }).size() == size);
+    }
+
 }

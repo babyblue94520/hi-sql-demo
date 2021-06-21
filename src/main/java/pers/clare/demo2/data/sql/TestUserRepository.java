@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 import pers.clare.demo.vo.SimpleUser;
 import pers.clare.demo2.data.entity.TestUser;
 import pers.clare.hisql.annotation.HiSql;
+import pers.clare.hisql.function.ResultSetCallback;
 import pers.clare.hisql.repository.SQLCrudRepository;
 
 import java.util.List;
@@ -23,4 +24,5 @@ public interface TestUserRepository extends SQLCrudRepository<TestUser> {
 
     @HiSql("select * from TEST_USER where (ID,NAME) in :testUsers")
     List<TestUser> findAllByIn(Object[][] testUsers);
+
 }

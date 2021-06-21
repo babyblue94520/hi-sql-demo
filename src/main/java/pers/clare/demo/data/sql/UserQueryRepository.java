@@ -1,7 +1,9 @@
 package pers.clare.demo.data.sql;
 
 import org.springframework.stereotype.Repository;
+import pers.clare.demo2.data.entity.TestUser;
 import pers.clare.hisql.annotation.HiSql;
+import pers.clare.hisql.function.ResultSetCallback;
 import pers.clare.hisql.page.Page;
 import pers.clare.hisql.page.Pagination;
 import pers.clare.hisql.page.Sort;
@@ -119,4 +121,7 @@ public interface UserQueryRepository extends SQLRepository {
 
     @HiSql("select * from user where (id,name) in :idNames")
     List<User> findAll(Object[][] idNames);
+
+    @HiSql("select * from user where (id,name) in :idNames")
+    List<User> findAll(List<SimpleUser> idNames, ResultSetCallback<List<User>> resultSetCallback);
 }

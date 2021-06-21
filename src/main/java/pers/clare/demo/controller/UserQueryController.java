@@ -13,10 +13,8 @@ import pers.clare.demo.data.entity.User;
 import pers.clare.demo.data.sql.UserQueryRepository;
 import pers.clare.demo.vo.User2;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.ResultSet;
+import java.util.*;
 
 @RequestMapping("user/query")
 @RestController
@@ -203,5 +201,38 @@ public class UserQueryController {
         }
         result.put("arrays", userQueryRepository.findAll(condition));
         return result;
+    }
+
+    @PostMapping("query/callback/rs")
+    public List<User> queryCallbackRS(
+            @RequestBody List<SimpleUser> simpleUsers
+    ) throws Exception {
+        return userQueryRepository.findAll(simpleUsers,(rs)->{
+            List<User> result = new ArrayList<>();
+            while(rs.next()){
+                User user = new User();
+                user.setId(rs.getLong("id"));
+                user.setName(rs.getString("name"));
+                result.add(user);
+            }
+            return result;
+        });
+    }
+
+    @PostMapping("query/callback/conn")
+    public List<User> queryCallbackConn(
+            @RequestBody SimpleUser simpleUser
+    ) throws Exception {
+        return userQueryRepository.connection((conn)->{
+            ResultSet rs = conn.createStatement().executeQuery("select * from user where id="+simpleUser.getId());
+            List<User> result = new ArrayList<>();
+            while(rs.next()){
+                User user = new User();
+                user.setId(rs.getLong("id"));
+                user.setName(rs.getString("name"));
+                result.add(user);
+            }
+            return result;
+        });
     }
 }

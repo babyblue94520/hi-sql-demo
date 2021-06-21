@@ -10,8 +10,10 @@ import pers.clare.hisql.page.Page;
 import pers.clare.hisql.page.Pagination;
 import pers.clare.hisql.page.Sort;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -237,6 +239,40 @@ class UserRepositoryTest {
         } while (recordSize > 0);
         assertEquals(total, count);
         deleteAll();
+    }
+
+    @Test
+    @Order(107)
+    void connection() {
+        userRepository.count();
+        long total = userRepository.connection((conn) -> {
+            ResultSet rs = conn.createStatement().executeQuery("select count(*) from user");
+            if (rs.next()) {
+                return rs.getLong(1);
+            }
+            return 0L;
+        });
+
+        assertTrue(total == userRepository.count());
+    }
+
+    @Test
+    @Order(108)
+    void preparedStatement() {
+        User user = User.builder()
+                .name("test")
+                .build();
+        userRepository.insert(user);
+        long id = userRepository.preparedStatement("select * from user where id=?", (ps) -> {
+            ps.setLong(1, user.getId());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getLong("id");
+            }
+            return 0L;
+        });
+        System.out.println(user.getId() + " " + id);
+        assertEquals(user.getId(), id);
     }
 
 }
