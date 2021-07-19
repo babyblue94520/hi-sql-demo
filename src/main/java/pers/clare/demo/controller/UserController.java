@@ -2,6 +2,7 @@ package pers.clare.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import pers.clare.demo.service.UserService;
 import pers.clare.hisql.page.Next;
 import pers.clare.hisql.page.Page;
 import pers.clare.hisql.page.Pagination;
@@ -17,6 +18,8 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserService userService;
 
     @GetMapping
     public List<User> all(
@@ -76,6 +79,12 @@ public class UserController {
     public User insert(
             User user
     ) throws Exception {
+        try {
+            userService.insert(user);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        user.setId(null);
         return userRepository.insert(user);
     }
 

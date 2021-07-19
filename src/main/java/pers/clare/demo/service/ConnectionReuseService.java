@@ -4,7 +4,9 @@ import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
-import pers.clare.hisql.aop.SqlConnectionReuse;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import pers.clare.demo.data.entity.User;
 import pers.clare.demo.data.sql.TransactionRepository;
 import pers.clare.demo.data.sql.UserRepository;
@@ -23,13 +25,18 @@ public class ConnectionReuseService {
      * use the some connection in different methods
      */
     @Caching
-    @SqlConnectionReuse
+    @Transactional(
+            propagation = Propagation.SUPPORTS
+    )
     public String queryDefineValue(Long id, String name) {
         transactionRepository.updateName(id, name);
         return String.format("old name:%s , new name:%s", transactionRepository.getOldName(), name);
     }
 
-    @SqlConnectionReuse(transaction = true, isolation = Connection.TRANSACTION_READ_UNCOMMITTED)
+    @Transactional(
+            propagation = Propagation.REQUIRED
+            , isolation = Isolation.READ_UNCOMMITTED
+    )
     public void transaction(StringBuffer result, Long id, String name, int count) {
         multiUpdate(result, id, name, count);
     }
@@ -49,7 +56,9 @@ public class ConnectionReuseService {
         return sb.toString();
     }
 
-    @SqlConnectionReuse(transaction = true)
+    @Transactional(
+            propagation = Propagation.REQUIRED
+    )
     public void updateException(StringBuilder sb, Long id, String name) {
         String result = queryDefineValue(id, name);
         sb.append(result).append('\n');
@@ -70,12 +79,17 @@ public class ConnectionReuseService {
         throw new RuntimeException("rollback");
     }
 
-    @SqlConnectionReuse
+    @Transactional(
+            propagation = Propagation.SUPPORTS
+    )
     public User findById(Long id) {
         return userRepository.findById(id);
     }
 
-    @SqlConnectionReuse(isolation = Connection.TRANSACTION_READ_UNCOMMITTED)
+    @Transactional(
+            propagation = Propagation.SUPPORTS
+            , isolation = Isolation.READ_UNCOMMITTED
+    )
     public User findByIdUncommitted(Long id) {
         return userRepository.findById(id);
     }
